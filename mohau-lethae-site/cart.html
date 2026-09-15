@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cart — Mohau "Ravaza" Lethae</title>
+<meta name="description" content="Your cart of original artworks from Mohau Lethae.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/config.js" defer></script>
+<script src="js/cart.js" defer></script>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<header class="site">
+  <a href="index.html" class="wordmark">Mohau Lethae <em>Ravaza</em></a>
+  <div class="header-right">
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" id="navToggle">Menu</button>
+    <nav class="primary" id="primary-nav">
+    <a href="index.html">Home</a>
+    <a href="works.html">Works</a>
+    <a href="wearable-art.html">Wearable Art</a>
+    <a href="studio.html">Story</a>
+    <a href="exhibitions.html">Exhibitions</a>
+    <a href="archive.html">Archive</a>
+    <a href="commissions.html">Commissions</a>
+    <a href="contact.html">Contact</a>
+    <a href="cart.html" aria-current="page" class="cart-link" aria-label="View cart"><svg viewBox="0 0 24 24"><path d="M3 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L22 8H6"/><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg>Cart <span class="cart-count" id="cartCount" hidden>0</span></a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+  <div class="page-head">
+    <p class="eyebrow">Cart</p>
+    <h1>Your cart</h1>
+    <p class="lede">Each original here is one-of-one, so quantity is capped at 1 per piece. Review your selection, then continue to checkout.</p>
+  </div>
+  <section id="cartSection">
+    <div class="cart-layout" id="cartLayout" style="display:none;">
+      <div>
+        <div id="cartItems"></div>
+      </div>
+      <div class="summary-box">
+        <h2>Order summary</h2>
+        <div class="summary-row"><span>Subtotal</span><span id="cartSubtotal">R0</span></div>
+        <div class="summary-row"><span>Shipping<span class="label-note">Calculated at checkout</span></span><span>&mdash;</span></div>
+        <div class="summary-row total"><span>Estimated total</span><span id="cartTotal">R0</span></div>
+        <div class="btn-row" style="margin-top:20px;">
+          <a href="checkout.html" class="btn btn-solid" style="width:100%; text-align:center;">Proceed to checkout</a>
+        </div>
+      </div>
+    </div>
+    <div class="cart-empty" id="cartEmpty">
+      <p>Your cart is empty.</p>
+      <a href="works.html" class="btn btn-outline">Browse original works</a>
+    </div>
+  </section>
+
+</main>
+<script>
+  function renderCart() {
+    const items = cartRead();
+    const layout = document.getElementById('cartLayout');
+    const empty = document.getElementById('cartEmpty');
+    const list = document.getElementById('cartItems');
+    if (items.length === 0) {
+      layout.style.display = 'none';
+      empty.style.display = 'block';
+      return;
+    }
+    layout.style.display = 'grid';
+    empty.style.display = 'none';
+    list.innerHTML = items.map(i => `
+      <div class="cart-item">
+        <img src="${i.image}" alt="'${i.title}'">
+        <div>
+          <h3>${i.title}</h3>
+          <p class="med">${i.medium}</p>
+          <button class="remove-btn" data-remove="${i.slug}" type="button">Remove</button>
+        </div>
+        <div class="line-price">R${i.price.toLocaleString()}</div>
+      </div>
+    `).join('');
+    const subtotal = cartSubtotal();
+    document.getElementById('cartSubtotal').textContent = 'R' + subtotal.toLocaleString();
+    document.getElementById('cartTotal').textContent = 'R' + subtotal.toLocaleString() + ' + shipping';
+    list.querySelectorAll('[data-remove]').forEach(btn => {
+      btn.addEventListener('click', () => { cartRemove(btn.dataset.remove); renderCart(); });
+    });
+  }
+  document.addEventListener('DOMContentLoaded', renderCart);
+</script>
+<footer id="contact-foot">
+  <div class="foot-grid">
+    <div>
+      <h2>Enquire about a work, a commission, or wearable art.</h2>
+      <p>Replies come directly from the studio, usually within a few days.</p>
+      <div class="btn-row" style="margin-top:20px;">
+        <a href="contact.html" class="btn btn-solid">Contact the studio</a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h3>Explore</h3>
+      <a href="works.html">Works</a>
+      <a href="wearable-art.html">Wearable Art</a>
+      <a href="exhibitions.html">Exhibitions</a>
+      <a href="archive.html">Archive</a>
+    </div>
+    <div class="foot-col">
+      <h3>Studio</h3>
+      <a href="studio.html">Story</a>
+      <a href="commissions.html">Commissions</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>&copy; Mohau "Ravaza" Lethae. Original artwork shown with the artist's permission.</span>
+    <span>Orange Farm, Gauteng, South Africa</span>
+  </div>
+</footer>
+<script>
+  const toggle = document.getElementById('navToggle');
+  const nav = document.getElementById('primary-nav');
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+      toggle.textContent = open ? 'Close' : 'Menu';
+    });
+    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.textContent = 'Menu';
+    }));
+  }
+</script>
+</body>
+</html>

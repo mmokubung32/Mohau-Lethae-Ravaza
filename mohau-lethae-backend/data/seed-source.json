@@ -1,0 +1,295 @@
+{
+  "works": [
+    {
+      "slug": "black-panthers-trans-atlantic",
+      "title": "Black Panthers \u2014 The Trans-Atlantic Squad",
+      "medium": "Mixed media on board",
+      "dims": "173cm \u00d7 104cm",
+      "price": 50000,
+      "status": "available",
+      "acquire": "enquire",
+      "featured": true,
+      "note": "A large-format piece built like a tactics board, arranging portraits in a formation. Ranked among the largest and highest-value works in the catalogue."
+    },
+    {
+      "slug": "speru-peru",
+      "title": "Speru Peru",
+      "medium": "Mixed media collage",
+      "dims": "81cm \u00d7 61cm",
+      "price": 9000,
+      "status": "available",
+      "acquire": "enquire",
+      "featured": true,
+      "note": "A layered collage portrait combining a child's profile, a crow, mechanical gear forms and an archer silhouette."
+    },
+    {
+      "slug": "people-of-vaal",
+      "title": "The People of Vaal",
+      "medium": "Mixed media on board",
+      "dims": "96cm \u00d7 58cm",
+      "price": 7000,
+      "status": "available",
+      "acquire": "enquire",
+      "featured": true,
+      "note": "An elder in the foreground, with scenes of everyday township life \u2014 a grazing donkey, clay pots, a cooking fire \u2014 layered behind her."
+    },
+    {
+      "slug": "tarex",
+      "title": "Tarex \u2014 The Stand-Out Portrait",
+      "medium": "Mixed media on board, negative-space panel",
+      "dims": "47cm \u00d7 41cm",
+      "price": 8000,
+      "status": "available",
+      "acquire": "enquire",
+      "featured": true,
+      "note": "A two-panel piece: a seated figure rendered in blue tones, paired with a matching silhouette cut as negative space from a black board."
+    },
+    {
+      "slug": "monyakwe",
+      "title": "Monyakwe wa Batshwana",
+      "medium": "Mixed media on board",
+      "dims": "65cm \u00d7 70cm",
+      "price": 4500,
+      "status": "available",
+      "acquire": "buy",
+      "featured": false,
+      "note": "A woman in beaded jewellery reaching toward a small jar of craft paint, with dancing figures layered in the background."
+    },
+    {
+      "slug": "thuthukani-child",
+      "title": "Untitled \u2014 Community Piece",
+      "medium": "Mixed media on board",
+      "dims": "Framed original",
+      "price": 35000,
+      "status": "available",
+      "acquire": "enquire",
+      "featured": false,
+      "note": "Entered as Mohau's 2025 Sasol New Signatures finalist piece (with Molefi Sylvester Moorosi), titled 'Project Thuthukani \u2014 Clean up the trash. Clean up the mind.' Full story on the Studio page."
+    },
+    {
+      "slug": "black-panther-series",
+      "title": "Black Panther Series",
+      "medium": "Acrylic and ink on board, triptych",
+      "dims": "Series of 3 panels",
+      "price": 6000,
+      "status": "available",
+      "acquire": "enquire",
+      "featured": false,
+      "note": "A three-panel study of black panthers in acrylic and ink, priced as a series."
+    },
+    {
+      "slug": "thoughts-unending",
+      "title": "Thoughts Unending",
+      "medium": "Mixed media",
+      "dims": "35cm \u00d7 27cm",
+      "price": 3000,
+      "status": "available",
+      "acquire": "buy",
+      "featured": false,
+      "note": "A split composition: half stippled portrait, half a totem-like column of carved figures."
+    },
+    {
+      "slug": "dineo",
+      "title": "Dineo",
+      "medium": "Ink and watercolour",
+      "dims": "39cm \u00d7 27cm",
+      "price": 2000,
+      "status": "available",
+      "acquire": "buy",
+      "featured": false,
+      "note": "A portrait in loose ink line and warm watercolour wash, signed by the artist."
+    },
+    {
+      "slug": "did-you-play",
+      "title": "Did You Play?\u2026 I Did",
+      "medium": "Pen, ink and acrylic on board",
+      "dims": "41cm \u00d7 36cm",
+      "price": 2500,
+      "status": "available",
+      "acquire": "buy",
+      "featured": false,
+      "note": "A cross-hatched figure mid-stride with a football, rendered in a single cyan tone over grey board."
+    },
+    {
+      "slug": "assassins-nest",
+      "title": "Assassin's Nest",
+      "medium": "Acrylic and ink on board",
+      "dims": "45cm \u00d7 33cm",
+      "price": 2000,
+      "status": "available",
+      "acquire": "buy",
+      "featured": false,
+      "note": "A black panther rendered in cross-hatched cyan line, half-hidden behind a tree trunk."
+    },
+    {
+      "slug": "ghost-huntress",
+      "title": "Ghost Huntress",
+      "medium": "Acrylic and ink on board",
+      "dims": "41cm \u00d7 38cm",
+      "price": 2000,
+      "status": "available",
+      "acquire": "buy",
+      "featured": false,
+      "note": "A panther in pale, ghost-toned line work, stalking low across a grey-blue forest ground."
+    },
+    {
+      "slug": "safe-house",
+      "title": "Safe House",
+      "medium": "Acrylic and ink on board",
+      "dims": "41cm \u00d7 38cm",
+      "price": 2000,
+      "status": "available",
+      "acquire": "buy",
+      "featured": false,
+      "note": "A panther climbing, seen from above, in the same cross-hatched cyan line as 'Assassin's Nest'."
+    },
+    {
+      "slug": "quiet-storm",
+      "title": "A Quiet Storm",
+      "medium": "Mixed media",
+      "dims": "A3",
+      "price": 1000,
+      "status": "available",
+      "acquire": "buy",
+      "featured": false,
+      "note": "A fragmented portrait \u2014 headwrap, stippled skin, and blocks of red and green ink."
+    },
+    {
+      "slug": "rough-road",
+      "title": "Rough Road",
+      "medium": "Pen and ink",
+      "dims": "A4",
+      "price": 900,
+      "status": "available",
+      "acquire": "buy",
+      "featured": false,
+      "note": "A bare, wind-bent tree rendered entirely in cross-hatched pen line."
+    },
+    {
+      "slug": "the-gaze",
+      "title": "The Gaze",
+      "medium": "Pen, ink and pastel",
+      "dims": "A3",
+      "price": 900,
+      "status": "available",
+      "acquire": "buy",
+      "featured": false,
+      "note": "A direct-eye portrait built from stippled ink over a red pastel ground."
+    },
+    {
+      "slug": "miniature-portrait",
+      "title": "Miniature Portrait",
+      "medium": "Mixed media on board",
+      "dims": "7.5cm radius (14cm across)",
+      "price": 700,
+      "status": "available",
+      "acquire": "buy",
+      "featured": false,
+      "note": "A small round-panel portrait in cross-hatched blue line \u2014 part of an ongoing miniature series."
+    },
+    {
+      "slug": "hang-ready-print",
+      "title": "Hang-Ready Print",
+      "medium": "Archival print, framed",
+      "dims": "Framed edition",
+      "price": 1500,
+      "status": "available",
+      "acquire": "buy",
+      "featured": false,
+      "note": "A framed, ready-to-hang print edition of a stippled portrait study."
+    },
+    {
+      "slug": "smangele",
+      "title": "Smangele",
+      "medium": "Oil on canvas",
+      "dims": "70cm \u00d7 60cm (dimension unconfirmed with artist)",
+      "price": null,
+      "status": "available",
+      "acquire": "enquire",
+      "featured": false,
+      "note": "A painted portrait on canvas. Recorded dimensions in the source catalogue were inconsistent \u2014 confirm with the studio before purchase."
+    },
+    {
+      "slug": "jomo",
+      "title": "Jomo",
+      "medium": "Pen and ink",
+      "dims": "A3",
+      "price": null,
+      "status": "sold",
+      "acquire": "sold",
+      "featured": false,
+      "note": "A back-turned figure study in cross-hatched pen line."
+    },
+    {
+      "slug": "what-were-you-thinking",
+      "title": "What Were You Thinking",
+      "medium": "Mixed media collage",
+      "dims": "A4",
+      "price": null,
+      "status": "sold",
+      "acquire": "sold",
+      "featured": false,
+      "note": "A folded, cut-paper figure study on a blue ground."
+    },
+    {
+      "slug": "self-portrait-red",
+      "title": "Self Portrait",
+      "medium": "Charcoal and ink",
+      "dims": "A2+",
+      "price": null,
+      "status": "not-for-sale",
+      "acquire": "nfs",
+      "featured": false,
+      "note": "A hooded self-portrait in stippled ink against a red ground."
+    },
+    {
+      "slug": "self-portrait-grey",
+      "title": "Self Portrait",
+      "medium": "Acrylic on canvas",
+      "dims": "Canvas",
+      "price": null,
+      "status": "not-for-sale",
+      "acquire": "nfs",
+      "featured": false,
+      "note": "A muted, monochrome self-portrait in acrylic."
+    }
+  ],
+  "wearable": [
+    {
+      "slug": "wa-cross-hatch-tee",
+      "title": "Cross-Hatch Portrait Tee",
+      "size": "M",
+      "fabric": "100% cotton tee, hand-painted with fabric-grade acrylic ink",
+      "edition": "One of one",
+      "price": 1200,
+      "note": "A cross-hatched portrait study painted directly onto a plain cotton tee \u2014 the same line language as the ink originals, on fabric instead of paper."
+    },
+    {
+      "slug": "wa-panther-study-tee",
+      "title": "Panther Study Tee",
+      "size": "L",
+      "fabric": "100% cotton tee, hand-painted with fabric-grade acrylic ink",
+      "edition": "One of one",
+      "price": 1200,
+      "note": "A single cross-hatched panther study, painted individually rather than printed."
+    },
+    {
+      "slug": "wa-miniature-portrait-tee",
+      "title": "Miniature Portrait Tee",
+      "size": "S",
+      "fabric": "100% cotton tee, hand-painted with fabric-grade acrylic ink",
+      "edition": "Edition 1 of 3",
+      "price": 950,
+      "note": "A small numbered run of three, each hand-painted individually rather than duplicated by a print run."
+    },
+    {
+      "slug": "wa-cross-hatch-hoodie",
+      "title": "Cross-Hatch Hoodie",
+      "size": "L",
+      "fabric": "Cotton-blend hoodie, hand-painted with fabric-grade acrylic ink",
+      "edition": "One of one",
+      "price": 1800,
+      "note": "A heavier cross-hatched portrait piece painted onto a full hoodie."
+    }
+  ]
+}

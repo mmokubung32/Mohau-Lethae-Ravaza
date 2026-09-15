@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Mohau "Ravaza" Lethae</title>
+<meta name="description" content="Get in touch with Mohau Lethae's studio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/config.js" defer></script>
+<script src="js/cart.js" defer></script>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<header class="site">
+  <a href="index.html" class="wordmark">Mohau Lethae <em>Ravaza</em></a>
+  <div class="header-right">
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" id="navToggle">Menu</button>
+    <nav class="primary" id="primary-nav">
+    <a href="index.html">Home</a>
+    <a href="works.html">Works</a>
+    <a href="wearable-art.html">Wearable Art</a>
+    <a href="studio.html">Story</a>
+    <a href="exhibitions.html">Exhibitions</a>
+    <a href="archive.html">Archive</a>
+    <a href="commissions.html">Commissions</a>
+    <a href="contact.html" aria-current="page">Contact</a>
+    <a href="cart.html" class="cart-link" aria-label="View cart"><svg viewBox="0 0 24 24"><path d="M3 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L22 8H6"/><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg>Cart <span class="cart-count" id="cartCount" hidden>0</span></a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+  <div class="page-head">
+    <p class="eyebrow">Contact</p>
+    <h1>Get in touch</h1>
+    <p class="lede">Enquiries about a specific work, a commission, or wearable art all start here.</p>
+  </div>
+  <section>
+    <div class="studio-layout" style="align-items:start;">
+      <form class="form-shell" id="contactForm">
+        <div class="field"><label for="ct-name">Name</label><input id="ct-name" name="name" required></div>
+        <div class="field"><label for="ct-email">Email</label><input id="ct-email" type="email" name="email" required></div>
+        <div class="field"><label for="ct-reason">This enquiry is about</label>
+          <select id="ct-reason" name="reason">
+            <option>A specific artwork</option>
+            <option>A commission</option>
+            <option>Wearable art</option>
+            <option>Press or exhibitions</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="field"><label for="ct-message">Message</label><textarea id="ct-message" name="message" required></textarea></div>
+        <button type="submit" class="btn btn-solid">Send message</button>
+        <div class="form-success" id="contactSuccess"><strong>Message received.</strong>The studio replies directly, usually within a few days.</div>
+        <p class="form-note">This is a design prototype &mdash; no message is sent yet. The studio's enquiry system connects here in the next build phase.</p>
+      </form>
+      <div class="body-copy">
+        <p><strong>Studio location</strong><br>Orange Farm, Gauteng, South Africa</p>
+        <p><strong>Email</strong><br>hello@mohaulethae.art <span class="form-note">(placeholder address for this prototype)</span></p>
+        <p><strong>Social</strong><br>Mohau Lethae is reachable on Facebook under his own name; a direct link will be added once confirmed with the studio.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+<script>
+  const f = document.getElementById('contactForm');
+  if (f) f.addEventListener('submit', e => {
+    e.preventDefault();
+    document.getElementById('contactSuccess').classList.add('show');
+    f.querySelector('button').setAttribute('disabled','');
+  });
+</script>
+<footer id="contact-foot">
+  <div class="foot-grid">
+    <div>
+      <h2>Enquire about a work, a commission, or wearable art.</h2>
+      <p>Replies come directly from the studio, usually within a few days.</p>
+      <div class="btn-row" style="margin-top:20px;">
+        <a href="contact.html" class="btn btn-solid">Contact the studio</a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h3>Explore</h3>
+      <a href="works.html">Works</a>
+      <a href="wearable-art.html">Wearable Art</a>
+      <a href="exhibitions.html">Exhibitions</a>
+      <a href="archive.html">Archive</a>
+    </div>
+    <div class="foot-col">
+      <h3>Studio</h3>
+      <a href="studio.html">Story</a>
+      <a href="commissions.html">Commissions</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>&copy; Mohau "Ravaza" Lethae. Original artwork shown with the artist's permission.</span>
+    <span>Orange Farm, Gauteng, South Africa</span>
+  </div>
+</footer>
+<script>
+  const toggle = document.getElementById('navToggle');
+  const nav = document.getElementById('primary-nav');
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+      toggle.textContent = open ? 'Close' : 'Menu';
+    });
+    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.textContent = 'Menu';
+    }));
+  }
+</script>
+</body>
+</html>

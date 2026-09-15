@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studio Admin — Mohau Lethae</title>
+<style>
+  :root{
+    --paper:#E8E2D2; --paper-deep:#DCD3BE; --ink:#1A1712; --ink-soft:#52493d;
+    --rule:#B7AB8E; --teal:#24504B; --teal-deep:#16332F; --rust:#7C3224;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:-apple-system,"IBM Plex Sans",sans-serif; line-height:1.5;}
+  header{display:flex; justify-content:space-between; align-items:center; padding:18px 28px; border-bottom:1px solid var(--rule);}
+  header h1{font-size:1.1rem; margin:0;}
+  main{max-width:1100px; margin:0 auto; padding:32px 28px 80px;}
+  .hidden{display:none !important;}
+  input, select, textarea, button{font-family:inherit; font-size:0.95rem;}
+  input, select, textarea{padding:10px 12px; border:1px solid var(--rule); background:var(--paper); color:var(--ink); border-radius:2px;}
+  label{display:block; font-size:0.85rem; color:var(--ink-soft); margin-bottom:5px;}
+  .field{margin-bottom:16px; max-width:360px;}
+  button{cursor:pointer; padding:10px 18px; border-radius:2px; border:1px solid var(--ink); background:var(--ink); color:var(--paper);}
+  button:hover{background:var(--teal-deep); border-color:var(--teal-deep);}
+  button.secondary{background:transparent; color:var(--ink); border-color:var(--rule);}
+  .error{color:var(--rust); font-size:0.88rem; margin-top:8px;}
+  .cards{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin:24px 0 36px;}
+  .card{background:var(--paper-deep); border:1px solid var(--rule); padding:16px;}
+  .card .num{font-size:1.7rem; font-weight:600;}
+  .card .lbl{font-size:0.82rem; color:var(--ink-soft);}
+  table{width:100%; border-collapse:collapse; font-size:0.9rem;}
+  th, td{text-align:left; padding:10px 8px; border-bottom:1px solid var(--rule); vertical-align:middle;}
+  th{color:var(--ink-soft); font-weight:500; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.03em;}
+  select.status{padding:6px 8px;}
+  input.price-input{width:100px; padding:6px 8px;}
+  .save-btn{padding:6px 12px; font-size:0.82rem;}
+  .row-saved{color:var(--teal); font-size:0.8rem;}
+  section{margin-bottom:48px;}
+  section h2{font-size:1.2rem; border-bottom:1px solid var(--rule); padding-bottom:10px;}
+  .tag-sold{color:var(--rust);} .tag-nfs{color:var(--ink-soft);} .tag-available{color:var(--teal);}
+  .tabs{display:flex; gap:8px; margin-bottom:20px;}
+  .tabs button{background:transparent; color:var(--ink-soft); border-color:var(--rule);}
+  .tabs button.active{background:var(--ink); color:var(--paper);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Mohau Lethae — Studio Admin</h1>
+  <div id="whoami"></div>
+</header>
+
+<main>
+
+  <!-- LOGIN -->
+  <section id="loginSection">
+    <h2>Log in</h2>
+    <form id="loginForm">
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" required value="studio@mohaulethae.art">
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" required>
+      </div>
+      <button type="submit">Log in</button>
+      <p class="error" id="loginError"></p>
+    </form>
+  </section>
+
+  <!-- DASHBOARD (hidden until logged in) -->
+  <div id="dashboard" class="hidden">
+
+    <div class="cards" id="statCards"></div>
+
+    <div class="tabs">
+      <button data-tab="catalogue" class="active">Catalogue</button>
+      <button data-tab="wearable">Wearable art</button>
+      <button data-tab="orders">Orders</button>
+      <button data-tab="inbox">Inbox</button>
+      <button data-tab="emails">Emails</button>
+      <button data-tab="audit">Audit log</button>
+    </div>
+
+    <section id="tab-catalogue">
+      <h2>Artwork catalogue</h2>
+      <table>
+        <thead><tr><th>Title</th><th>Medium</th><th>Price (R)</th><th>Status</th><th></th></tr></thead>
+        <tbody id="catalogueBody"></tbody>
+      </table>
+    </section>
+
+    <section id="tab-wearable" class="hidden">
+      <h2>Wearable art listings</h2>
+      <table>
+        <thead><tr><th>Title</th><th>Edition</th><th>Price (R)</th><th>Status</th><th></th></tr></thead>
+        <tbody id="wearableBody"></tbody>
+      </table>
+    </section>
+
+    <section id="tab-orders" class="hidden">
+      <h2>Orders</h2>
+      <table>
+        <thead><tr><th>Ref</th><th>Customer</th><th>Items</th><th>Total (R)</th><th>Status</th><th>Shipping</th><th>Placed</th></tr></thead>
+        <tbody id="ordersBody"></tbody>
+      </table>
+    </section>
+
+    <section id="tab-inbox" class="hidden">
+      <h2>Enquiries</h2>
+      <table>
+        <thead><tr><th>From</th><th>Reason</th><th>Message</th><th>Status</th></tr></thead>
+        <tbody id="enquiriesBody"></tbody>
+      </table>
+      <h2 style="margin-top:32px;">Commission requests</h2>
+      <table>
+        <thead><tr><th>From</th><th>Subject</th><th>Date</th></tr></thead>
+        <tbody id="commissionsBody"></tbody>
+      </table>
+    </section>
+
+    <section id="tab-emails" class="hidden">
+      <h2>Email log</h2>
+      <p style="color:var(--ink-soft); font-size:0.88rem; margin-top:-8px;">
+        Transport: <strong id="emailTransport">&mdash;</strong>. When set to "console", emails are logged here and to the server console rather than actually sent — set <code>EMAIL_PROVIDER_API_KEY</code> to send for real.
+      </p>
+      <table>
+        <thead><tr><th>When</th><th>To</th><th>Subject</th><th>Related</th><th>Status</th></tr></thead>
+        <tbody id="emailsBody"></tbody>
+      </table>
+    </section>
+
+    <section id="tab-audit" class="hidden">
+      <h2>Audit log</h2>
+      <table>
+        <thead><tr><th>When</th><th>Admin</th><th>Action</th><th>Item</th><th>Details</th></tr></thead>
+        <tbody id="auditBody"></tbody>
+      </table>
+    </section>
+
+    <button class="secondary" id="logoutBtn">Log out</button>
+  </div>
+
+</main>
+
+<script>
+const API = ""; // same-origin, since the admin panel is served by this backend
+
+async function api(path, options = {}) {
+  const res = await fetch(API + path, {
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    ...options,
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.error || `Request failed (${res.status})`);
+  }
+  return res.json();
+}
+
+const loginSection = document.getElementById("loginSection");
+const dashboard = document.getElementById("dashboard");
+const whoami = document.getElementById("whoami");
+
+async function checkSession() {
+  try {
+    const me = await api("/api/auth/me");
+    whoami.textContent = me.email;
+    loginSection.classList.add("hidden");
+    dashboard.classList.remove("hidden");
+    loadEverything();
+  } catch {
+    loginSection.classList.remove("hidden");
+    dashboard.classList.add("hidden");
+  }
+}
+
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const errorEl = document.getElementById("loginError");
+  errorEl.textContent = "";
+  try {
+    await api("/api/auth/login", { method: "POST", body: JSON.stringify({ email, password }) });
+    checkSession();
+  } catch (err) {
+    errorEl.textContent = err.message;
+  }
+});
+
+document.getElementById("logoutBtn").addEventListener("click", async () => {
+  await api("/api/auth/logout", { method: "POST" });
+  checkSession();
+});
+
+document.querySelectorAll(".tabs button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tabs button").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    ["catalogue", "wearable", "orders", "inbox", "emails", "audit"].forEach(t => {
+      document.getElementById("tab-" + t).classList.toggle("hidden", t !== btn.dataset.tab);
+    });
+  });
+});
+
+async function loadEverything() {
+  const stats = await api("/api/admin/dashboard");
+  document.getElementById("statCards").innerHTML = `
+    <div class="card"><div class="num">${stats.artworksAvailable}</div><div class="lbl">Available works</div></div>
+    <div class="card"><div class="num">${stats.artworksSold}</div><div class="lbl">Sold works</div></div>
+    <div class="card"><div class="num">${stats.ordersPaid}</div><div class="lbl">Paid orders</div></div>
+    <div class="card"><div class="num">${stats.newEnquiries}</div><div class="lbl">New enquiries</div></div>
+  `;
+
+  const works = await api("/api/works");
+  document.getElementById("catalogueBody").innerHTML = works.map(w => `
+    <tr data-slug="${w.slug}">
+      <td>${w.title}</td>
+      <td>${w.medium}</td>
+      <td><input class="price-input" type="number" value="${w.price ?? ''}" placeholder="Enquire"></td>
+      <td>
+        <select class="status">
+          <option value="available" ${w.status === 'available' ? 'selected' : ''}>Available</option>
+          <option value="sold" ${w.status === 'sold' ? 'selected' : ''}>Sold</option>
+          <option value="not-for-sale" ${w.status === 'not-for-sale' ? 'selected' : ''}>Not for sale</option>
+        </select>
+      </td>
+      <td><button class="save-btn" data-action="save-work">Save</button> <span class="row-saved"></span></td>
+    </tr>
+  `).join("");
+
+  const wearable = await api("/api/wearable");
+  document.getElementById("wearableBody").innerHTML = wearable.map(w => `
+    <tr data-slug="${w.slug}">
+      <td>${w.title}</td>
+      <td>${w.edition}</td>
+      <td><input class="price-input" type="number" value="${w.price}"></td>
+      <td>
+        <select class="status">
+          <option value="available" ${w.status === 'available' ? 'selected' : ''}>Available</option>
+          <option value="sold" ${w.status === 'sold' ? 'selected' : ''}>Sold</option>
+        </select>
+      </td>
+      <td><button class="save-btn" data-action="save-wearable">Save</button> <span class="row-saved"></span></td>
+    </tr>
+  `).join("");
+
+  const orders = await api("/api/admin/orders");
+  document.getElementById("ordersBody").innerHTML = orders.map(o => `
+    <tr>
+      <td>${o.order_ref}</td>
+      <td>${o.name}<br><span style="color:var(--ink-soft)">${o.email}</span></td>
+      <td>${o.items.map(i => i.title).join(", ")}</td>
+      <td>${o.total}</td>
+      <td class="tag-${o.status === 'paid' ? 'available' : o.status === 'failed' || o.status === 'cancelled' ? 'sold' : 'nfs'}">${o.status}</td>
+      <td>${o.shipping_method}${o.shipping_status === 'quote_pending' ? ' <strong class="tag-sold">(quote needed)</strong>' : ''}</td>
+      <td>${o.created_at}</td>
+    </tr>
+  `).join("") || `<tr><td colspan="7">No orders yet.</td></tr>`;
+
+  const enquiries = await api("/api/admin/enquiries");
+  document.getElementById("enquiriesBody").innerHTML = enquiries.map(e => `
+    <tr>
+      <td>${e.name}<br><span style="color:var(--ink-soft)">${e.email}</span></td>
+      <td>${e.reason}${e.work_slug ? ' &middot; ' + e.work_slug : ''}</td>
+      <td>${e.message}</td>
+      <td>${e.status}</td>
+    </tr>
+  `).join("") || `<tr><td colspan="4">No enquiries yet.</td></tr>`;
+
+  const commissions = await api("/api/admin/commissions");
+  document.getElementById("commissionsBody").innerHTML = commissions.map(c => `
+    <tr><td>${c.name}<br><span style="color:var(--ink-soft)">${c.email}</span></td><td>${c.subject}</td><td>${c.created_at}</td></tr>
+  `).join("") || `<tr><td colspan="3">No commission requests yet.</td></tr>`;
+
+  const audit = await api("/api/admin/audit-log");
+  document.getElementById("auditBody").innerHTML = audit.map(a => `
+    <tr><td>${a.created_at}</td><td>${a.admin_email}</td><td>${a.action}</td><td>${a.entity_slug}</td><td><code>${a.details || ''}</code></td></tr>
+  `).join("") || `<tr><td colspan="5">No changes logged yet.</td></tr>`;
+
+  const emails = await api("/api/admin/emails");
+  if (emails.length > 0) document.getElementById("emailTransport").textContent = emails[0].transport;
+  document.getElementById("emailsBody").innerHTML = emails.map(e => `
+    <tr>
+      <td>${e.created_at}</td>
+      <td>${e.to_email}</td>
+      <td>${e.subject}</td>
+      <td>${e.related_type || ''}${e.related_id ? ' · ' + e.related_id : ''}</td>
+      <td class="${e.status === 'sent' ? 'tag-available' : 'tag-sold'}">${e.status}</td>
+    </tr>
+  `).join("") || `<tr><td colspan="5">No emails sent yet.</td></tr>`;
+}
+
+document.getElementById("catalogueBody").addEventListener("click", async (e) => {
+  if (e.target.dataset.action !== "save-work") return;
+  const row = e.target.closest("tr");
+  const slug = row.dataset.slug;
+  const priceVal = row.querySelector(".price-input").value;
+  const status = row.querySelector(".status").value;
+  const acquireType = status === "sold" ? "sold" : status === "not-for-sale" ? "nfs" : (priceVal ? "buy" : "enquire");
+  try {
+    await api(`/api/works/${slug}`, {
+      method: "PATCH",
+      body: JSON.stringify({ price: priceVal ? Number(priceVal) : null, status, acquireType }),
+    });
+    row.querySelector(".row-saved").textContent = "Saved.";
+    loadEverything();
+  } catch (err) {
+    row.querySelector(".row-saved").textContent = err.message;
+  }
+});
+
+document.getElementById("wearableBody").addEventListener("click", async (e) => {
+  if (e.target.dataset.action !== "save-wearable") return;
+  const row = e.target.closest("tr");
+  const slug = row.dataset.slug;
+  const price = Number(row.querySelector(".price-input").value);
+  const status = row.querySelector(".status").value;
+  try {
+    await api(`/api/wearable/${slug}`, { method: "PATCH", body: JSON.stringify({ price, status }) });
+    row.querySelector(".row-saved").textContent = "Saved.";
+  } catch (err) {
+    row.querySelector(".row-saved").textContent = err.message;
+  }
+});
+
+checkSession();
+</script>
+
+</body>
+</html>

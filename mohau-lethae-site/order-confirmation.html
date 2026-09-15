@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Order Confirmation — Mohau "Ravaza" Lethae</title>
+<meta name="description" content="Order confirmation for your Mohau Lethae purchase.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/config.js" defer></script>
+<script src="js/cart.js" defer></script>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<header class="site">
+  <a href="index.html" class="wordmark">Mohau Lethae <em>Ravaza</em></a>
+  <div class="header-right">
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" id="navToggle">Menu</button>
+    <nav class="primary" id="primary-nav">
+    <a href="index.html">Home</a>
+    <a href="works.html">Works</a>
+    <a href="wearable-art.html">Wearable Art</a>
+    <a href="studio.html">Story</a>
+    <a href="exhibitions.html">Exhibitions</a>
+    <a href="archive.html">Archive</a>
+    <a href="commissions.html">Commissions</a>
+    <a href="contact.html">Contact</a>
+    <a href="cart.html" class="cart-link" aria-label="View cart"><svg viewBox="0 0 24 24"><path d="M3 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L22 8H6"/><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg>Cart <span class="cart-count" id="cartCount" hidden>0</span></a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+  <div class="page-head">
+    <p class="eyebrow">Order confirmation</p>
+    <h1 id="oc-heading">Checking your order&hellip;</h1>
+    <p class="lede" id="oc-lede">One moment while we confirm your payment with PayFast.</p>
+  </div>
+  <section>
+    <div class="summary-box" style="max-width:480px;" id="oc-box">
+      <h2 id="oc-ref">&nbsp;</h2>
+      <div id="oc-items"></div>
+      <div class="summary-row total"><span>Total</span><span id="oc-total"></span></div>
+    </div>
+    <div class="btn-row" style="margin-top:24px;">
+      <a href="works.html" class="btn btn-outline">Continue browsing</a>
+      <a href="contact.html" class="btn btn-outline" id="oc-contact">Contact the studio</a>
+    </div>
+  </section>
+
+</main>
+<script>
+  async function checkOrder(ref, attempt) {
+    attempt = attempt || 0;
+    try {
+      const res = await fetch(`${window.API_BASE}/api/orders/${encodeURIComponent(ref)}`);
+      if (!res.ok) throw new Error("not found");
+      const order = await res.json();
+
+      document.getElementById('oc-ref').textContent = order.orderRef;
+      document.getElementById('oc-items').innerHTML = order.items.map(i =>
+        `<div class="mini-line"><span class="t">${i.title}</span><span>R${i.price.toLocaleString()}</span></div>`
+      ).join('');
+      document.getElementById('oc-total').textContent = 'R' + order.total.toLocaleString();
+
+      if (order.status === 'paid') {
+        document.getElementById('oc-heading').textContent = 'Payment received — thank you.';
+        document.getElementById('oc-lede').textContent = order.shippingStatus === 'quote_pending'
+          ? 'The studio has been notified and will contact you separately with a shipping quote for this piece before dispatch.'
+          : 'The studio has been notified and will be in touch about delivery or collection.';
+      } else if (order.status === 'pending_payment' && attempt < 6) {
+        // PayFast's server-to-server notification can arrive a few seconds
+        // after the browser redirect — poll briefly before assuming trouble.
+        document.getElementById('oc-heading').textContent = 'Confirming your payment…';
+        setTimeout(() => checkOrder(ref, attempt + 1), 2000);
+      } else if (order.status === 'pending_payment') {
+        document.getElementById('oc-heading').textContent = 'Still waiting on payment confirmation.';
+        document.getElementById('oc-lede').textContent = 'This can happen if the payment is still processing. If you completed payment, this will update shortly — otherwise, contact the studio with your order reference.';
+      } else {
+        document.getElementById('oc-heading').textContent = 'Payment was not completed.';
+        document.getElementById('oc-lede').textContent = 'Your order was not charged. If this seems wrong, contact the studio with your order reference.';
+      }
+    } catch (err) {
+      document.getElementById('oc-heading').textContent = 'Order not found.';
+      document.getElementById('oc-lede').textContent = 'Double-check the link, or contact the studio with your order reference if you have one.';
+      document.getElementById('oc-box').style.display = 'none';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get('ref');
+    if (!ref) {
+      document.getElementById('oc-heading').textContent = 'No order reference given.';
+      document.getElementById('oc-box').style.display = 'none';
+      return;
+    }
+    checkOrder(ref);
+  });
+</script>
+<footer id="contact-foot">
+  <div class="foot-grid">
+    <div>
+      <h2>Enquire about a work, a commission, or wearable art.</h2>
+      <p>Replies come directly from the studio, usually within a few days.</p>
+      <div class="btn-row" style="margin-top:20px;">
+        <a href="contact.html" class="btn btn-solid">Contact the studio</a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h3>Explore</h3>
+      <a href="works.html">Works</a>
+      <a href="wearable-art.html">Wearable Art</a>
+      <a href="exhibitions.html">Exhibitions</a>
+      <a href="archive.html">Archive</a>
+    </div>
+    <div class="foot-col">
+      <h3>Studio</h3>
+      <a href="studio.html">Story</a>
+      <a href="commissions.html">Commissions</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>&copy; Mohau "Ravaza" Lethae. Original artwork shown with the artist's permission.</span>
+    <span>Orange Farm, Gauteng, South Africa</span>
+  </div>
+</footer>
+<script>
+  const toggle = document.getElementById('navToggle');
+  const nav = document.getElementById('primary-nav');
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+      toggle.textContent = open ? 'Close' : 'Menu';
+    });
+    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.textContent = 'Menu';
+    }));
+  }
+</script>
+</body>
+</html>

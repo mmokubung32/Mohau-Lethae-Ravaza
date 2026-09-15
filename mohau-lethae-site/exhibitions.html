@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exhibitions — Mohau "Ravaza" Lethae</title>
+<meta name="description" content="Exhibitions, competitions and milestones in Mohau Lethae's career.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/config.js" defer></script>
+<script src="js/cart.js" defer></script>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<header class="site">
+  <a href="index.html" class="wordmark">Mohau Lethae <em>Ravaza</em></a>
+  <div class="header-right">
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" id="navToggle">Menu</button>
+    <nav class="primary" id="primary-nav">
+    <a href="index.html">Home</a>
+    <a href="works.html">Works</a>
+    <a href="wearable-art.html">Wearable Art</a>
+    <a href="studio.html">Story</a>
+    <a href="exhibitions.html" aria-current="page">Exhibitions</a>
+    <a href="archive.html">Archive</a>
+    <a href="commissions.html">Commissions</a>
+    <a href="contact.html">Contact</a>
+    <a href="cart.html" class="cart-link" aria-label="View cart"><svg viewBox="0 0 24 24"><path d="M3 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L22 8H6"/><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg>Cart <span class="cart-count" id="cartCount" hidden>0</span></a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+  <div class="page-head">
+    <p class="eyebrow">Exhibitions &amp; milestones</p>
+    <h1>A working record, in order</h1>
+    <p class="lede">Kept up to date as Mohau exhibits, rather than treated as a finished list.</p>
+  </div>
+  <section>
+    <div class="timeline">
+      <div class="t-row">
+        <div class="yr">2018 &mdash;</div>
+        <div><h3>Back to Basics</h3><p>Ongoing participant in the quarterly Back to Basics poetry and visual arts exhibitions.</p></div>
+      </div>
+      <div class="t-row">
+        <div class="yr">2020</div>
+        <div><h3>Artist Proof Studio</h3><p>Completed a diploma in printmaking, majoring in lino cut and dry point.</p></div>
+      </div>
+      <div class="t-row">
+        <div class="yr">2025</div>
+        <div><h3>Sasol New Signatures &mdash; Finalist</h3><p>Selected as a finalist with Molefi Sylvester Moorosi, exhibited at the Pretoria Art Museum with a piece grown from Project Thuthukani. <a href="work-thuthukani-child.html" class="section-link">View the piece</a></p></div>
+      </div>
+    </div>
+    <p class="data-notice">Verified via Sasol New Signatures' published 2025 finalist listing. Other dates and the &ldquo;Back to Basics&rdquo; series are as supplied by the artist; independent listings for that series were not located.</p>
+  </section>
+
+</main>
+<footer id="contact-foot">
+  <div class="foot-grid">
+    <div>
+      <h2>Enquire about a work, a commission, or wearable art.</h2>
+      <p>Replies come directly from the studio, usually within a few days.</p>
+      <div class="btn-row" style="margin-top:20px;">
+        <a href="contact.html" class="btn btn-solid">Contact the studio</a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h3>Explore</h3>
+      <a href="works.html">Works</a>
+      <a href="wearable-art.html">Wearable Art</a>
+      <a href="exhibitions.html">Exhibitions</a>
+      <a href="archive.html">Archive</a>
+    </div>
+    <div class="foot-col">
+      <h3>Studio</h3>
+      <a href="studio.html">Story</a>
+      <a href="commissions.html">Commissions</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>&copy; Mohau "Ravaza" Lethae. Original artwork shown with the artist's permission.</span>
+    <span>Orange Farm, Gauteng, South Africa</span>
+  </div>
+</footer>
+<script>
+  const toggle = document.getElementById('navToggle');
+  const nav = document.getElementById('primary-nav');
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+      toggle.textContent = open ? 'Close' : 'Menu';
+    });
+    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.textContent = 'Menu';
+    }));
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout — Mohau "Ravaza" Lethae</title>
+<meta name="description" content="Checkout for your order of original artwork from Mohau Lethae.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/config.js" defer></script>
+<script src="js/cart.js" defer></script>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<header class="site">
+  <a href="index.html" class="wordmark">Mohau Lethae <em>Ravaza</em></a>
+  <div class="header-right">
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" id="navToggle">Menu</button>
+    <nav class="primary" id="primary-nav">
+    <a href="index.html">Home</a>
+    <a href="works.html">Works</a>
+    <a href="wearable-art.html">Wearable Art</a>
+    <a href="studio.html">Story</a>
+    <a href="exhibitions.html">Exhibitions</a>
+    <a href="archive.html">Archive</a>
+    <a href="commissions.html">Commissions</a>
+    <a href="contact.html">Contact</a>
+    <a href="cart.html" class="cart-link" aria-label="View cart"><svg viewBox="0 0 24 24"><path d="M3 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L22 8H6"/><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg>Cart <span class="cart-count" id="cartCount" hidden>0</span></a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+  <div class="page-head">
+    <p class="eyebrow">Checkout</p>
+    <h1>Checkout</h1>
+    <p class="lede">Placing an order creates a real order record and redirects you to PayFast to pay. This connects to a live sandbox instance of the backend &mdash; see docs/DEPLOYMENT.md for how to point this at a production API and PayFast account.</p>
+  </div>
+  <section id="checkoutSection">
+    <div class="checkout-layout" id="checkoutLayout">
+      <form id="checkoutForm">
+        <div class="checkout-section">
+          <h2>Contact</h2>
+          <div class="field"><label for="co-email">Email</label><input id="co-email" type="email" required></div>
+        </div>
+        <div class="checkout-section">
+          <h2>Shipping address</h2>
+          <div class="field"><label for="co-name">Full name</label><input id="co-name" required></div>
+          <div class="field"><label for="co-address">Address</label><input id="co-address" required></div>
+          <div class="field-row">
+            <div class="field"><label for="co-city">City</label><input id="co-city" required></div>
+            <div class="field"><label for="co-postcode">Postal code</label><input id="co-postcode" required></div>
+          </div>
+          <div class="field"><label for="co-shipping">Shipping method</label>
+            <select id="co-shipping">
+              <option value="courier">Standard courier (South Africa) &mdash; R150</option>
+              <option value="collect">Collect from studio, Orange Farm &mdash; free</option>
+              <option value="freight_quote">Request a freight quote (large/fragile originals)</option>
+            </select>
+            <p class="form-note" id="fragileNotice" style="display:none; margin-top:8px;">This order includes a large or fragile original. Standard courier isn't available for it &mdash; choose collection, or request a freight quote (charged R0 now; the studio will confirm shipping cost separately before dispatch).</p>
+          </div>
+        </div>
+        <div class="checkout-section">
+          <h2>Payment</h2>
+          <p class="form-note" style="margin-bottom:16px;">You'll be redirected to PayFast's sandbox to complete payment. No card details are collected on this site &mdash; see docs/SECURITY.md.</p>
+        </div>
+        <button type="submit" class="btn btn-solid">Place order &amp; pay</button>
+        <p class="error" id="checkoutError" style="display:none; color:#7C3224; margin-top:12px; font-size:0.9rem;"></p>
+      </form>
+      <div class="summary-box">
+        <h2>Order summary</h2>
+        <div id="checkoutLines"></div>
+        <div class="summary-row"><span>Subtotal</span><span id="co-subtotal">R0</span></div>
+        <div class="summary-row"><span>Shipping</span><span id="co-shipping-cost">R150</span></div>
+        <div class="summary-row total"><span>Total</span><span id="co-total">R0</span></div>
+      </div>
+    </div>
+    <div class="confirmation" id="confirmation">
+      <h2>Redirecting to payment&hellip;</h2>
+      <p>Your order <strong id="orderRef"></strong> has been created. You'll be redirected to PayFast to complete payment now.</p>
+      <p class="form-note">If nothing happens in a few seconds, <a href="#" id="manualRedirect">click here to continue to PayFast</a>.</p>
+    </div>
+    <div class="cart-empty" id="checkoutEmpty" style="display:none;">
+      <p>Your cart is empty &mdash; add a piece before checking out.</p>
+      <a href="works.html" class="btn btn-outline">Browse original works</a>
+    </div>
+  </section>
+
+</main>
+<script>
+  function renderCheckout() {
+    const items = cartRead();
+    const layout = document.getElementById('checkoutLayout');
+    const emptyState = document.getElementById('checkoutEmpty');
+    if (items.length === 0) {
+      layout.style.display = 'none';
+      emptyState.style.display = 'block';
+      return;
+    }
+    layout.style.display = 'grid';
+    emptyState.style.display = 'none';
+    document.getElementById('checkoutLines').innerHTML = items.map(i =>
+      `<div class="mini-line"><span class="t">${i.title}</span><span>R${i.price.toLocaleString()}</span></div>`
+    ).join('');
+    const subtotal = cartSubtotal();
+    const shippingSel = document.getElementById('co-shipping');
+    const courierOption = shippingSel.querySelector('option[value="courier"]');
+
+    if (cartHasFragileItem()) {
+      courierOption.disabled = true;
+      if (shippingSel.value === 'courier') shippingSel.value = 'collect';
+      document.getElementById('fragileNotice').style.display = 'block';
+    } else {
+      courierOption.disabled = false;
+      document.getElementById('fragileNotice').style.display = 'none';
+    }
+
+    const SHIPPING_COST = { courier: 150, collect: 0, freight_quote: 0 };
+    const updateTotals = () => {
+      const shipping = SHIPPING_COST[shippingSel.value];
+      document.getElementById('co-subtotal').textContent = 'R' + subtotal.toLocaleString();
+      document.getElementById('co-shipping-cost').textContent = shippingSel.value === 'freight_quote' ? 'Quoted separately' : (shipping === 0 ? 'Free' : 'R' + shipping);
+      document.getElementById('co-total').textContent = 'R' + (subtotal + shipping).toLocaleString() + (shippingSel.value === 'freight_quote' ? ' + shipping (quoted separately)' : '');
+    };
+    shippingSel.addEventListener('change', updateTotals);
+    updateTotals();
+  }
+
+  function submitToPayFast(payment) {
+    // Auto-submits a real hidden form POST to PayFast, field order preserved
+    // to match how the backend generated the signature.
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = payment.processUrl;
+    Object.entries(payment).forEach(([key, value]) => {
+      if (key === 'processUrl') return;
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = value;
+      form.appendChild(input);
+    });
+    document.body.appendChild(form);
+    document.getElementById('manualRedirect').addEventListener('click', (e) => { e.preventDefault(); form.submit(); });
+    setTimeout(() => form.submit(), 900);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderCheckout();
+    const form = document.getElementById('checkoutForm');
+    const errorEl = document.getElementById('checkoutError');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorEl.style.display = 'none';
+      const submitBtn = form.querySelector('button[type=submit]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Placing order…';
+
+      const items = cartRead().map(i => ({ slug: i.slug, productType: i.productType || 'artwork' }));
+      const payload = {
+        email: document.getElementById('co-email').value,
+        name: document.getElementById('co-name').value,
+        address: document.getElementById('co-address').value,
+        city: document.getElementById('co-city').value,
+        postalCode: document.getElementById('co-postcode').value,
+        shippingMethod: document.getElementById('co-shipping').value,
+        items,
+      };
+
+      try {
+        const res = await fetch(`${window.API_BASE}/api/orders`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          const message = data.problems ? data.problems.join(' ') : (data.error || 'Something went wrong placing your order.');
+          errorEl.textContent = message;
+          errorEl.style.display = 'block';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Place order & pay';
+          return;
+        }
+        document.getElementById('orderRef').textContent = data.orderRef;
+        document.getElementById('checkoutLayout').style.display = 'none';
+        document.getElementById('confirmation').classList.add('show');
+        cartClear();
+        submitToPayFast(data.payment);
+      } catch (err) {
+        errorEl.textContent = 'Could not reach the order server. Is the backend running? See mohau-lethae-backend/README.md.';
+        errorEl.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Place order & pay';
+      }
+    });
+  });
+</script>
+<footer id="contact-foot">
+  <div class="foot-grid">
+    <div>
+      <h2>Enquire about a work, a commission, or wearable art.</h2>
+      <p>Replies come directly from the studio, usually within a few days.</p>
+      <div class="btn-row" style="margin-top:20px;">
+        <a href="contact.html" class="btn btn-solid">Contact the studio</a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h3>Explore</h3>
+      <a href="works.html">Works</a>
+      <a href="wearable-art.html">Wearable Art</a>
+      <a href="exhibitions.html">Exhibitions</a>
+      <a href="archive.html">Archive</a>
+    </div>
+    <div class="foot-col">
+      <h3>Studio</h3>
+      <a href="studio.html">Story</a>
+      <a href="commissions.html">Commissions</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>&copy; Mohau "Ravaza" Lethae. Original artwork shown with the artist's permission.</span>
+    <span>Orange Farm, Gauteng, South Africa</span>
+  </div>
+</footer>
+<script>
+  const toggle = document.getElementById('navToggle');
+  const nav = document.getElementById('primary-nav');
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+      toggle.textContent = open ? 'Close' : 'Menu';
+    });
+    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.textContent = 'Menu';
+    }));
+  }
+</script>
+</body>
+</html>
